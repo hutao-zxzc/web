@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>致爸爸妈妈的一封信 - 我的成人礼</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* 信封动画样式 */
+    @keyframes openEnvelope {
+      0% {
+        transform: translateY(0) rotateX(0deg);
+      }
+      50% {
+        transform: translateY(-15px) rotateX(-15deg);
+      }
+      100% {
+        transform: translateY(-120px) rotateX(-180deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes letterSlideOut {
+      0% {
+        transform: translateY(100px) scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes envelopePulse {
+      0%, 100% {
+        transform: scale(1) translateY(0);
+        box-shadow: 0 10px 40px rgba(139, 90, 43, 0.3);
+      }
+      50% {
+        transform: scale(1.02) translateY(-5px);
+        box-shadow: 0 15px 50px rgba(139, 90, 43, 0.4);
+      }
+    }
+
+    @keyframes fadeInPage {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes sealPulse {
+      0%, 100% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.1);
+        box-shadow: 0 6px 25px rgba(255, 105, 180, 0.6);
+      }
+    }
+
+    .envelope-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #fff5e6 0%, #ffe4c4 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 1s ease;
+    }
+
+    .envelope-wrapper.opened {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .envelope-container {
+      position: relative;
+      cursor: pointer;
+      animation: envelopePulse 2.5s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+
+    .envelope-container:hover {
+      transform: scale(1.03) translateY(-5px);
+    }
+
+    .envelope-body {
+      width: 500px;
+      height: 400px;
+      background: linear-gradient(135deg, #d4a574 0%, #a08060 50%, #8b5a2b 100%);
+      border-radius: 25px;
+      position: relative;
+      box-shadow: 0 15px 50px rgba(139, 90, 43, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 30px;
+      border: 4px solid #c9976a;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(135deg, #e8b896 0%, #d4a574 100%);
+      border-radius: 25px 25px 0 0;
+      transform-origin: top;
+      transition: transform 1.5s ease;
+      z-index: 10;
+      border-bottom: 3px solid #c9976a;
+    }
+
+    .envelope-container.opened .envelope-flap {
+      animation: openEnvelope 1.8s ease forwards;
+    }
+
+    .envelope-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      z-index: 5;
+      margin-top: -30px;
+    }
+
+    .envelope-text {
+      font-size: 2.8em;
+      font-weight: bold;
+      margin-bottom: 25px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #fff 0%, #ffe4c4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .envelope-subtext {
+      font-size: 1.4em;
+      opacity: 0.95;
+      color: #fff5e6;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 25px;
+      backdrop-filter: blur(5px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .envelope-decoration {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 3px solid #a08060;
+      border-radius: 25px;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    .envelope-corner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: 3px solid #ffb6c1;
+      border-radius: 10px;
+      opacity: 0.6;
+    }
+
+    .envelope-corner.top-left {
+      top: 15px;
+      left: 15px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .envelope-corner.top-right {
+      top: 15px;
+      right: 15px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .envelope-corner.bottom-left {
+      bottom: 15px;
+      left: 15px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .envelope-corner.bottom-right {
+      bottom: 15px;
+      right: 15px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .envelope-seal {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 50%, #ff1493 100%);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5em;
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5), inset 0 2px 10px rgba(255, 255, 255, 0.3);
+      border: 4px solid #fff;
+      animation: sealPulse 2s ease-in-out infinite;
+      z-index: 15;
+    }
+
+    .envelope-seal::after {
+      content: '';
+      position: absolute;
+      width: 75px;
+      height: 75px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .main-container {
+      opacity: 0;
+      animation: fadeInPage 1s ease forwards 1.5s;
+    }
+
+    /* 按行显示的动画样式 */
+    @keyframes lineFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .line-animate {
+      opacity: 0;
+      animation: lineFadeIn 0.8s ease-out forwards;
+    }
+
+    /* 一起创建回忆样式 */
+    .memory-section {
+      text-align: center;
+      margin: 60px 0 40px;
+      padding: 30px;
+      background: linear-gradient(135deg, #fff9f0 0%, #ffe4c4 100%);
+      border-radius: 20px;
+      border: 2px solid #ffb6c1;
+    }
+
+    .memory-btn {
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: white;
+      border: none;
+      padding: 15px 50px;
+      font-size: 1.2em;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .memory-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
+    }
+
+    .memory-hint {
+      margin-top: 15px;
+      color: #8b5a2b;
+      font-size: 0.95em;
+      opacity: 0.8;
+    }
+
+    /* 历史记录样式 */
+    .memories-history {
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 40px 20px;
+    }
+
+    .memories-title {
+      text-align: center;
+      font-size: 2em;
+      color: #8b5a2b;
+      margin-bottom: 40px;
+      text-shadow: 1px 1px 3px rgba(139, 90, 43, 0.2);
+    }
+
+    .memories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .memory-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(139, 90, 43, 0.2);
+      transition: all 0.3s ease;
+      border: 2px solid #ffe4c4;
+    }
+
+    .memory-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(139, 90, 43, 0.3);
+    }
+
+    .memory-card-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .memory-card-message {
+      padding: 20px;
+    }
+
+    .memory-card-text {
+      color: #5a4a3a;
+      font-size: 0.95em;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .memory-card-date {
+      color: #999;
+      font-size: 0.85em;
+      text-align: right;
+    }
+
+    /* 弹窗样式 */
+    .memory-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeInPage 0.3s ease;
+    }
+
+    .memory-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 30px;
+      border-bottom: 2px solid #ffe4c4;
+      background: linear-gradient(135deg, #fff9f0 0%, #ffe4c4 100%);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #8b5a2b;
+      font-size: 1.5em;
+    }
+
+    .close-btn {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .close-btn:hover {
+      background: #ff1493;
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      color: #5a4a3a;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .photo-upload {
+      border: 3px dashed #ffb6c1;
+      border-radius: 15px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fff9f0;
+    }
+
+    .photo-upload:hover {
+      border-color: #ff69b4;
+      background: #ffe4e1;
+    }
+
+    .upload-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .upload-icon {
+      font-size: 3em;
+    }
+
+    .upload-text {
+      color: #8b5a2b;
+      font-size: 1em;
+    }
+
+    #photoPreview {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    #memoryMessage {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #ffb6c1;
+      border-radius: 10px;
+      font-size: 1em;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    #memoryMessage:focus {
+      outline: none;
+      border-color: #ff69b4;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+    }
+
+    .submit-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景音频 -->
+  <audio id="bgMusic" loop>
+    <source src="1.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
+  </audio>
+
+  <!-- 信封启封界面 -->
+  <div class="envelope-wrapper" id="envelopeWrapper">
+    <div class="envelope-container" id="envelopeContainer">
+      <div class="envelope-decoration"></div>
+      <div class="envelope-corner top-left"></div>
+      <div class="envelope-corner top-right"></div>
+      <div class="envelope-corner bottom-left"></div>
+      <div class="envelope-corner bottom-right"></div>
+      <div class="envelope-body">
+        <div class="envelope-flap"></div>
+        <div class="envelope-content">
+          <div class="envelope-text">爸爸妈妈</div>
+          <div class="envelope-subtext">请点击信封开启</div>
+        </div>
+        <div class="envelope-seal">❤️</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 音频控制按钮 -->
+  <button class="audio-control" id="audioControl" title="播放/暂停音乐">
+    🎵
+  </button>
+
+  <!-- 主容器 -->
+  <div class="container main-container">
+    <!-- 顶部装饰 -->
+    <div class="top-decoration">
+      <div class="decoration-line"></div>
+      <div class="heart-icon">❤️</div>
+      <div class="decoration-line"></div>
+    </div>
+
+    <!-- 标题区域 -->
+    <header class="header-section">
+      <div class="header-content">
+        <h1 class="main-title">致爸爸妈妈的一封信</h1>
+        <p class="subtitle">—— 我的十八岁成人礼</p>
+        <div class="date">2024年4月14日</div>
+      </div>
+    </header>
+
+    <!-- 信件正文 -->
+    <main class="letter-content">
+      <!-- 开头 -->
+      <div class="letter-section">
+        <p class="letter-salutation">亲爱的爸爸妈妈：</p>
+        <div class="letter-opening">
+          <span class="line-animate" style="animation-delay: 1.3s;">展信舒颜，见字如晤。</span>
+        </div>
+        <div class="letter-paragraphs">
+          <div class="letter-text">
+            <span class="line-animate" style="animation-delay: 1.8s;">时光如白驹过隙，忽然而已。</span>
+            <span class="line-animate" style="animation-delay: 2.2s;">十八年前的那个下午，我带着第一声啼哭来到这个世界，</span>
+            <span class="line-animate" style="animation-delay: 2.6s;">而今天，我站在成人礼的殿堂上，提笔写下这封信，</span>
+            <span class="line-animate" style="animation-delay: 3.0s;">心中千言万语，竟不知从何说起。</span>
+            <span class="line-animate" style="animation-delay: 3.4000000000000004s;">虽然我文笔不太好，但我仍想尽我所能，</span>
+            <span class="line-animate" style="animation-delay: 3.8s;">在这两张纸上表达我18年来的所想。</span>
+          </div>
+          <div class="letter-text">
+            <span class="line-animate" style="animation-delay: 4.2s;">窗外的阳光一如当年你们迎接我时的温暖，</span>
+            <span class="line-animate" style="animation-delay: 4.6s;">只是那个襁褓中需要你们日夜守护的婴孩，</span>
+            <span class="line-animate" style="animation-delay: 5.0s;">如今已经长大成人。</span>
+            <span class="line-animate" style="animation-delay: 5.3999999999999995s;">回望这一路，每一步都印刻着你们的爱与付出，</span>
+            <span class="line-animate" style="animation-delay: 5.8s;">每一帧记忆都浸润着家的温度。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分隔符 -->
+      <div class="letter-divider">✦</div>
+
+      <!-- 生命的起点 -->
+      <div class="letter-section">
+        <h2 class="section-heading">生命的起点</h2>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 6.8s;">妈妈，我还记得您后来笑着跟我讲起，</span>
+          <span class="line-animate" style="animation-delay: 7.2s;">当年生下我时，您忍着怎样的剧痛，</span>
+          <span class="line-animate" style="animation-delay: 7.6s;">又是怎样在虚弱中第一眼望向我的模样。</span>
+          <span class="line-animate" style="animation-delay: 8.0s;">那九个多月的孕育，那撕心裂肺的分娩，</span>
+          <span class="line-animate" style="animation-delay: 8.4s;">换来的是我的第一口乳汁、第一声呢喃。</span>
+          <span class="line-animate" style="animation-delay: 8.8s;">您的怀抱是我最初的安全感，</span>
+          <span class="line-animate" style="animation-delay: 9.200000000000001s;">您的体温是我对世界最温暖的记忆。</span>
+          <span class="line-animate" style="animation-delay: 9.600000000000001s;">感谢您，用生命的全部力量把我带到人间，</span>
+          <span class="line-animate" style="animation-delay: 10.0s;">又用日日夜夜的守护哺育我成长。</span>
+        </div>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 10.4s;">而爸爸，您是我身后那座沉默却坚定的山。</span>
+          <span class="line-animate" style="animation-delay: 10.8s;">十八年来，您用汗水和拼搏撑起了这个家。</span>
+          <span class="line-animate" style="animation-delay: 11.200000000000001s;">我见过您深夜加完班疲惫的身影，</span>
+          <span class="line-animate" style="animation-delay: 11.600000000000001s;">也见过您为了一个项目四处奔波的辛苦。</span>
+          <span class="line-animate" style="animation-delay: 12.0s;">您从不轻易说累，可我懂，</span>
+          <span class="line-animate" style="animation-delay: 12.4s;">您把所有的风雨都挡在了门外，</span>
+          <span class="line-animate" style="animation-delay: 12.8s;">只为给我和妈妈一个安稳的港湾。</span>
+          <span class="line-animate" style="animation-delay: 13.200000000000001s;">而如今，您一个人扛起了整个家的重量，</span>
+          <span class="line-animate" style="animation-delay: 13.600000000000001s;">而我知道，这份重量您依然要独自承担许多——</span>
+          <span class="line-animate" style="animation-delay: 14.0s;">爸爸，您辛苦了。</span>
+          <span class="line-animate" style="animation-delay: 14.4s;">未来的日子里，我会努力成长为也能为您分担忧愁的人。</span>
+        </div>
+      </div>
+
+      <!-- 分隔符 -->
+      <div class="letter-divider">✦</div>
+
+      <!-- 学业与兴趣 -->
+      <div class="letter-section">
+        <h2 class="section-heading">学业与兴趣</h2>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 15.0s;">感谢你们，对我学业与兴趣的支持。</span>
+          <span class="line-animate" style="animation-delay: 15.4s;">从小我就对编程有着说不清的热爱，</span>
+          <span class="line-animate" style="animation-delay: 15.8s;">那些代码、逻辑、从无到有构建出一个程序的过程，</span>
+          <span class="line-animate" style="animation-delay: 16.2s;">让我着迷不已。</span>
+          <span class="line-animate" style="animation-delay: 16.6s;">你们虽然不一定完全懂我在做什么，</span>
+          <span class="line-animate" style="animation-delay: 17.0s;">却从未说过一句"这有什么用"，</span>
+          <span class="line-animate" style="animation-delay: 17.400000000000002s;">反而为我买来配件，书籍，</span>
+          <span class="line-animate" style="animation-delay: 17.8s;">支持我参加编程比赛和科技社团。</span>
+          <span class="line-animate" style="animation-delay: 18.2s;">你们从不吝啬时间和金钱，</span>
+          <span class="line-animate" style="animation-delay: 18.6s;">只为让我能安心追寻自己热爱的事物。</span>
+        </div>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 19.0s;">还记得小学时，为了让我能接受更好的教育，</span>
+          <span class="line-animate" style="animation-delay: 19.400000000000002s;">你们毅然决定从丰台区搬到海淀区。</span>
+          <span class="line-animate" style="animation-delay: 19.8s;">搬家那天，满屋子的箱子和你们忙碌的身影，</span>
+          <span class="line-animate" style="animation-delay: 20.2s;">至今刻在我的脑海里。</span>
+          <span class="line-animate" style="animation-delay: 20.6s;">那不仅仅是一次住处的变迁，</span>
+          <span class="line-animate" style="animation-delay: 21.0s;">更是你们为了我的未来，</span>
+          <span class="line-animate" style="animation-delay: 21.400000000000002s;">愿意付出一切代价的决心。</span>
+        </div>
+      </div>
+
+      <!-- 分隔符 -->
+      <div class="letter-divider">✦</div>
+
+      <!-- 儿时的教诲 -->
+      <div class="letter-section">
+        <h2 class="section-heading">儿时的教诲</h2>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 22.0s;">你们儿时的谆谆教诲，我仍铭记于心。</span>
+          <span class="line-animate" style="animation-delay: 22.400000000000002s;">"做人要诚实""做事要有始有终"</span>
+          <span class="line-animate" style="animation-delay: 22.8s;">"要懂得感恩""己所不欲，勿施于人"……</span>
+          <span class="line-animate" style="animation-delay: 23.2s;">这些朴素的话语，这怕是我这十几年来听到的最多的话，</span>
+          <span class="line-animate" style="animation-delay: 23.6s;">那时候或许我还不完全懂，</span>
+          <span class="line-animate" style="animation-delay: 24.0s;">可随着年岁渐长，我越来越明白，</span>
+          <span class="line-animate" style="animation-delay: 24.400000000000002s;">这些教诲是我人生路上最扎实的根基。</span>
+          <span class="line-animate" style="animation-delay: 24.8s;">你们教会我的，不仅是知识，</span>
+          <span class="line-animate" style="animation-delay: 25.2s;">更是如何成为一个堂堂正正的人。</span>
+        </div>
+      </div>
+
+      <!-- 分隔符 -->
+      <div class="letter-divider">✦</div>
+
+      <!-- 旅途的回忆 -->
+      <div class="letter-section">
+        <h2 class="section-heading">旅途的回忆</h2>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 25.8s;">那些旅途中的欢笑，</span>
+          <span class="line-animate" style="animation-delay: 26.2s;">同样是我记忆里最闪亮的珍珠。</span>
+          <span class="line-animate" style="animation-delay: 26.6s;">我记得在英国伦敦眼上俯瞰泰晤士河的震撼，</span>
+          <span class="line-animate" style="animation-delay: 27.0s;">记得在马来西亚兰卡威的沙滩上追逐落日的快乐，</span>
+          <span class="line-animate" style="animation-delay: 27.400000000000002s;">记得在塞班岛潜入碧蓝海水中的奇妙。</span>
+          <span class="line-animate" style="animation-delay: 27.8s;">每一次旅行，你们都精心安排，</span>
+          <span class="line-animate" style="animation-delay: 28.2s;">让我看到世界的广阔。</span>
+          <span class="line-animate" style="animation-delay: 28.6s;">那些瞬间，不仅是风景，</span>
+          <span class="line-animate" style="animation-delay: 29.0s;">更是你们用爱为我搭建的成长课堂。</span>
+        </div>
+      </div>
+
+      <!-- 分隔符 -->
+      <div class="letter-divider">✦</div>
+
+      <!-- 成长与牵挂 -->
+      <div class="letter-section">
+        <h2 class="section-heading">成长与牵挂</h2>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 29.6s;">而每一次考试、每一次获奖，</span>
+          <span class="line-animate" style="animation-delay: 30.0s;">都离不开你们的鼓励与笑容。</span>
+          <span class="line-animate" style="animation-delay: 30.400000000000002s;">当我因为成绩不理想而沮丧时，</span>
+          <span class="line-animate" style="animation-delay: 30.8s;">你们从不责备，</span>
+          <span class="line-animate" style="animation-delay: 31.2s;">而是陪着我分析问题、重拾信心；</span>
+          <span class="line-animate" style="animation-delay: 31.6s;">当我捧着奖状回家时，</span>
+          <span class="line-animate" style="animation-delay: 32.0s;">你们脸上的笑容比我还灿烂，</span>
+          <span class="line-animate" style="animation-delay: 32.4s;">那是我见过最美的风景。</span>
+          <span class="line-animate" style="animation-delay: 32.8s;">我记得每一次家庭聚餐时的欢声笑语，</span>
+          <span class="line-animate" style="animation-delay: 33.199999999999996s;">也记得偶尔因为意见不合而产生的低落时刻——</span>
+          <span class="line-animate" style="animation-delay: 33.599999999999994s;">但正是这些酸甜苦辣，</span>
+          <span class="line-animate" style="animation-delay: 34.0s;">构成了我们真实而温暖的家。</span>
+        </div>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 34.4s;">妈妈，您的身体一直是我最大的牵挂。</span>
+          <span class="line-animate" style="animation-delay: 34.8s;">得知您生病的消息那天，</span>
+          <span class="line-animate" style="animation-delay: 35.199999999999996s;">我心里像被揪住了一样疼。</span>
+          <span class="line-animate" style="animation-delay: 35.599999999999994s;">您总是那么坚强，</span>
+          <span class="line-animate" style="animation-delay: 36.0s;">把所有的难受都轻描淡写地带过，</span>
+          <span class="line-animate" style="animation-delay: 36.4s;">反而安慰我不要担心。</span>
+          <span class="line-animate" style="animation-delay: 36.8s;">可妈妈，请您一定要好好照顾自己，</span>
+          <span class="line-animate" style="animation-delay: 37.199999999999996s;">按时吃药，好好休息。</span>
+          <span class="line-animate" style="animation-delay: 37.599999999999994s;">我会更加努力，让您少操一份心。</span>
+          <span class="line-animate" style="animation-delay: 38.0s;">您要早日康复，我们还等着一起去看更多的风景，</span>
+          <span class="line-animate" style="animation-delay: 38.4s;">创造更多的回忆。</span>
+          <span class="line-animate" style="animation-delay: 38.8s;">您的健康，就是我们全家最大的幸福。</span>
+        </div>
+      </div>
+
+      <!-- 分隔符 -->
+      <div class="letter-divider">✦</div>
+
+      <!-- 成年的承诺 -->
+      <div class="letter-section">
+        <h2 class="section-heading">成年的承诺</h2>
+        <div class="letter-text">
+          <span class="line-animate" style="animation-delay: 39.4s;">今天，我的成人礼，</span>
+          <span class="line-animate" style="animation-delay: 39.8s;">又将为我们的记忆增添一份无法磨灭的印记。</span>
+          <span class="line-animate" style="animation-delay: 40.199999999999996s;">十八岁，意味着责任与担当。</span>
+          <span class="line-animate" style="animation-delay: 40.599999999999994s;">我会认真学习，在编程这条热爱的道路上不断精进，</span>
+          <span class="line-animate" style="animation-delay: 41.0s;">用优异的成绩和踏实的成长来报答你们的养育之恩。</span>
+          <span class="line-animate" style="animation-delay: 41.4s;">我也希望，在未来的道路上，</span>
+          <span class="line-animate" style="animation-delay: 41.8s;">你们仍然能像从前一样支持我、鼓励我——</span>
+          <span class="line-animate" style="animation-delay: 42.199999999999996s;">因为你们的信任，</span>
+          <span class="line-animate" style="animation-delay: 42.599999999999994s;">是我前行路上最大的动力。</span>
+        </div>
+      </div>
+
+      <!-- 结尾 -->
+      <div class="letter-section">
+        <div class="letter-closing">
+          <span class="line-animate" style="animation-delay: 43.199999999999996s;">纸短情长，写不尽十八年的恩情。</span>
+          <span class="line-animate" style="animation-delay: 43.599999999999994s;">你们给我的，不仅是生命，更是爱、勇气和看世界的方式。</span>
+          <span class="line-animate" style="animation-delay: 44.0s;">从今天起，我会努力成为你们的骄傲，</span>
+          <span class="line-animate" style="animation-delay: 44.4s;">也会成为你们老去时可以依靠的那个人。</span>
+        </div>
+      </div>
+
+      <!-- 落款 -->
+      <div class="letter-signature">
+        <p class="signature-text">爱你们的儿子</p>
+        <p class="signature-date">2024年4月14日</p>
+      </div>
+    </main>
+
+    <!-- 底部装饰 -->
+    <div class="bottom-decoration">
+      <div class="decoration-line"></div>
+      <div class="heart-icon">❤️</div>
+      <div class="decoration-line"></div>
+    </div>
+
+    <!-- 一起创建回忆按钮 -->
+    <div class="memory-section">
+      <button class="memory-btn" id="memoryBtn">📸 一起创建回忆</button>
+      <div class="memory-hint">记录属于我们的美好时光</div>
+    </div>
+
+    <!-- 历史记录区域 -->
+    <div class="memories-history" id="memoriesHistory" style="display: none;">
+      <h2 class="memories-title">💕 我们的回忆</h2>
+      <div class="memories-grid" id="memoriesGrid"></div>
+    </div>
+
+    <!-- 创建回忆弹窗 -->
+    <div class="memory-modal" id="memoryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>📸 创建回忆</h3>
+          <button class="close-btn" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="memoryPhoto">上传照片</label>
+            <div class="photo-upload" id="photoUpload">
+              <div class="upload-placeholder">
+                <span class="upload-icon">📷</span>
+                <span class="upload-text">点击或拖拽上传照片</span>
+              </div>
+              <input type="file" id="memoryPhoto" accept="image/*" style="display: none;">
+              <img id="photoPreview" style="display: none;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="memoryMessage">写下你的寄语</label>
+            <textarea id="memoryMessage" rows="4" placeholder="写下此刻的心情..."></textarea>
+          </div>
+          <button class="submit-btn" id="submitMemory">✨ 保存回忆</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>十八岁的我，用文字诉说十八年的爱与感恩</p>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

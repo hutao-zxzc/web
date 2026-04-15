@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的视频网站</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 视频区域 -->
+  <div class="video-container fade-in">
+    <video controls autoplay muted loop>
+      <source src="videos/my-video.mp4" type="video/mp4">
+      您的浏览器不支持视频播放。
+    </video>
+  </div>
+
+  <!-- 动画元素 -->
+  <div class="content">
+    <h1 class="slide-in">欢迎来到我的网站</h1>
+    <p class="fade-up">这里有精美的视频和流畅的动画</p>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

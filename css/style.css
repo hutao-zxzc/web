@@ -1,0 +1,782 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Georgia', 'Songti SC', 'SimSun', serif;
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe4c4 100%);
+  min-height: 100vh;
+  color: #4a4a4a;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  min-height: 100vh;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.1);
+  padding-bottom: 80px;
+}
+
+/* ==================== 信封启封界面 ==================== */
+@keyframes envelopePulse {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 10px 40px rgba(139, 90, 43, 0.3);
+  }
+  50% {
+    transform: scale(1.02) translateY(-5px);
+    box-shadow: 0 15px 50px rgba(139, 90, 43, 0.4);
+  }
+}
+
+@keyframes openEnvelope {
+  0% {
+    transform: translateY(0) rotateX(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotateX(-15deg);
+  }
+  100% {
+    transform: translateY(-120px) rotateX(-180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sealPulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 6px 25px rgba(255, 105, 180, 0.6);
+  }
+}
+
+.envelope-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe4c4 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 1s ease;
+}
+
+.envelope-wrapper.opened {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.envelope-container {
+  position: relative;
+  cursor: pointer;
+  animation: envelopePulse 2.5s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.envelope-container:hover {
+  transform: scale(1.03) translateY(-5px);
+}
+
+.envelope-body {
+  width: 500px;
+  height: 400px;
+  background: linear-gradient(135deg, #d4a574 0%, #a08060 50%, #8b5a2b 100%);
+  border-radius: 25px;
+  position: relative;
+  box-shadow: 0 15px 50px rgba(139, 90, 43, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 30px;
+  border: 4px solid #c9976a;
+  z-index: 1;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(135deg, #e8b896 0%, #d4a574 100%);
+  border-radius: 25px 25px 0 0;
+  transform-origin: top;
+  transition: transform 1.5s ease;
+  z-index: 10;
+  border-bottom: 3px solid #c9976a;
+  pointer-events: none;
+}
+
+.envelope-container.opened .envelope-flap {
+  animation: openEnvelope 1.8s ease forwards;
+}
+
+.envelope-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  z-index: 5;
+  margin-top: -30px;
+}
+
+.envelope-text {
+  font-size: 2.8em;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #fff 0%, #ffe4c4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.envelope-subtext {
+  font-size: 1.4em;
+  opacity: 0.95;
+  color: #fff5e6;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 12px 30px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.envelope-decoration {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #a08060;
+  border-radius: 25px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.envelope-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid #ffb6c1;
+  border-radius: 10px;
+  opacity: 0.6;
+}
+
+.envelope-corner.top-left {
+  top: 15px;
+  left: 15px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.envelope-corner.top-right {
+  top: 15px;
+  right: 15px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.envelope-corner.bottom-left {
+  bottom: 15px;
+  left: 15px;
+  border-right: none;
+  border-top: none;
+}
+
+.envelope-corner.bottom-right {
+  bottom: 15px;
+  right: 15px;
+  border-left: none;
+  border-top: none;
+}
+
+.envelope-seal {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 50%, #ff1493 100%);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5em;
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5), inset 0 2px 10px rgba(255, 255, 255, 0.3);
+  border: 4px solid #fff;
+  animation: sealPulse 2s ease-in-out infinite;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.envelope-seal::after {
+  content: '';
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.main-container {
+  opacity: 0;
+  animation: fadeInPage 1s ease forwards 1.5s;
+}
+
+/* ==================== 顶部装饰 ==================== */
+.top-decoration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, rgba(255, 182, 193, 0.3) 0%, rgba(255, 218, 185, 0.3) 100%);
+}
+
+.decoration-line {
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ffb6c1, transparent);
+  border-radius: 2px;
+}
+
+.heart-icon {
+  font-size: 2em;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ==================== 标题区域 ==================== */
+.header-section {
+  text-align: center;
+  padding: 60px 40px 40px;
+  background: linear-gradient(135deg, rgba(255, 245, 230, 0.8) 0%, rgba(255, 228, 196, 0.8) 100%);
+  border-bottom: 3px solid #ffb6c1;
+}
+
+.header-content {
+  position: relative;
+}
+
+.main-title {
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #d4a574 0%, #8b5a2b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 4px rgba(212, 165, 116, 0.3);
+}
+
+.subtitle {
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  color: #8b7355;
+  font-style: italic;
+}
+
+.date {
+  font-size: 1.3em;
+  color: #a08060;
+  padding: 10px 30px;
+  border: 2px solid #d4a574;
+  border-radius: 25px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* ==================== 信件内容 ==================== */
+.letter-content {
+  padding: 80px 60px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 250, 240, 0.9) 100%);
+}
+
+.letter-section {
+  margin-bottom: 50px;
+  padding: 30px;
+  background: rgba(255, 250, 240, 0.3);
+  border-radius: 30px;
+}
+
+.letter-salutation {
+  font-size: 2em;
+  font-weight: bold;
+  color: #8b5a2b;
+  margin-bottom: 30px;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 2px dashed #d4a574;
+}
+
+.letter-opening {
+  font-size: 1.4em;
+  color: #6b5344;
+  margin-bottom: 30px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 250, 240, 0.5);
+  border-radius: 25px;
+}
+
+.section-heading {
+  font-size: 2em;
+  color: #8b5a2b;
+  margin-bottom: 25px;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, rgba(255, 245, 230, 0.6) 0%, rgba(255, 228, 196, 0.6) 100%);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 4px solid #ffb6c1;
+}
+
+.section-heading::before {
+  content: '❀';
+  color: #ffb6c1;
+  font-size: 0.8em;
+}
+
+.letter-text {
+  font-size: 1.25em;
+  line-height: 2.5;
+  color: #5a4a3a;
+  margin-bottom: 25px;
+  padding: 25px;
+  background: rgba(255, 250, 240, 0.5);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 3px solid #d4a574;
+}
+
+.letter-text span {
+  display: block;
+  text-indent: 2em;
+  line-height: 2.2;
+  padding: 5px 0;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.letter-text span:hover {
+  background: rgba(255, 228, 196, 0.3);
+  transform: translateX(5px);
+}
+
+.letter-paragraphs {
+  margin-bottom: 30px;
+}
+
+.letter-closing {
+  font-size: 1.3em;
+  line-height: 2;
+  color: #6b5344;
+  margin-bottom: 40px;
+  text-align: center;
+  font-style: italic;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(255, 245, 230, 0.6) 0%, rgba(255, 228, 196, 0.6) 100%);
+  border-radius: 30px;
+  box-shadow: 0 5px 20px rgba(212, 165, 116, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.letter-closing span {
+  display: block;
+  padding: 8px 0;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.letter-closing span:hover {
+  background: rgba(255, 228, 196, 0.3);
+  transform: scale(1.02);
+}
+
+.letter-signature {
+  text-align: center;
+  margin-top: 60px;
+  padding: 40px;
+  background: rgba(255, 250, 240, 0.5);
+  border-radius: 30px;
+}
+
+.signature-text {
+  font-size: 2em;
+  font-weight: bold;
+  color: #8b5a2b;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.signature-date {
+  font-size: 1.3em;
+  color: #a08060;
+  padding: 8px 25px;
+  border: 2px solid #d4a574;
+  border-radius: 25px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* ==================== 分隔符 ==================== */
+.letter-divider {
+  text-align: center;
+  margin: 60px 0;
+  font-size: 2em;
+  color: #ffb6c1;
+  animation: pulse 3s ease-in-out infinite;
+  padding: 20px;
+  background: rgba(255, 250, 240, 0.3);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  line-height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ==================== 底部装饰 ==================== */
+.bottom-decoration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 40px 20px;
+  margin-top: 60px;
+  background: linear-gradient(135deg, rgba(255, 218, 185, 0.3) 0%, rgba(255, 182, 193, 0.3) 100%);
+}
+
+/* ==================== 页脚 ==================== */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8b7355;
+  font-size: 1.1em;
+  font-style: italic;
+  background: linear-gradient(135deg, rgba(255, 245, 230, 0.8) 0%, rgba(255, 228, 196, 0.8) 100%);
+}
+
+/* ==================== 音频控制 ==================== */
+.audio-control {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #ffb6c1 0%, #ffdaaf 100%);
+  color: #8b5a2b;
+  font-size: 1.8em;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(139, 90, 43, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-control:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 30px rgba(139, 90, 43, 0.4);
+}
+
+.audio-control.playing {
+  animation: pulse 2s ease infinite;
+}
+
+/* ==================== 动画 ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lineFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.line-animate {
+  opacity: 0;
+  animation: lineFadeIn 0.8s ease-out forwards;
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+  .envelope-body {
+    width: 350px;
+    height: 300px;
+    padding: 30px 20px;
+  }
+
+  .envelope-flap {
+    height: 150px;
+    pointer-events: none;
+  }
+
+  .envelope-text {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .envelope-subtext {
+    font-size: 1.1em;
+    padding: 10px 20px;
+  }
+
+  .envelope-seal {
+    width: 70px;
+    height: 70px;
+    font-size: 2em;
+    bottom: 40px;
+  }
+
+  .envelope-corner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .envelope-corner.top-left,
+  .envelope-corner.top-right {
+    top: 10px;
+  }
+
+  .envelope-corner.bottom-left,
+  .envelope-corner.bottom-right {
+    bottom: 10px;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .main-title {
+    font-size: 2.2em;
+  }
+
+  .subtitle {
+    font-size: 1.2em;
+  }
+
+  .letter-content {
+    padding: 40px 25px;
+  }
+
+  .letter-section {
+    padding: 20px;
+    border-radius: 25px;
+  }
+
+  .letter-salutation {
+    font-size: 1.5em;
+  }
+
+  .section-heading {
+    font-size: 1.5em;
+    padding: 12px 15px;
+    border-radius: 20px;
+  }
+
+  .letter-text {
+    font-size: 1.1em;
+    padding: 15px;
+    border-radius: 20px;
+    line-height: 2.3;
+  }
+
+  .letter-closing {
+    font-size: 1.15em;
+    padding: 20px;
+    border-radius: 25px;
+  }
+
+  .signature-text {
+    font-size: 1.5em;
+  }
+
+  .audio-control {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 25px;
+  }
+
+  .decoration-line {
+    width: 60px;
+  }
+
+  .letter-divider {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    line-height: 30px;
+  }
+
+  .date,
+  .signature-date {
+    padding: 6px 20px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .envelope-body {
+    width: 280px;
+    height: 260px;
+    padding: 25px 15px;
+  }
+
+  .envelope-flap {
+    height: 130px;
+    pointer-events: none;
+  }
+
+  .envelope-text {
+    font-size: 1.6em;
+    margin-bottom: 15px;
+  }
+
+  .envelope-subtext {
+    font-size: 1em;
+    padding: 8px 15px;
+  }
+
+  .envelope-seal {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8em;
+    bottom: 35px;
+  }
+
+  .envelope-corner {
+    width: 35px;
+    height: 35px;
+  }
+
+  .main-title {
+    font-size: 1.8em;
+  }
+
+  .letter-content {
+    padding: 30px 15px;
+  }
+
+  .letter-section {
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  .letter-text {
+    font-size: 1em;
+    line-height: 2.2;
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .letter-text span {
+    text-indent: 1.5em;
+    padding: 3px 0;
+  }
+
+  .letter-closing {
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  .letter-signature {
+    padding: 25px;
+    border-radius: 25px;
+  }
+}
+
+/* ==================== 打印样式 ==================== */
+@media print {
+  body {
+    background: white;
+  }
+
+  .container {
+    box-shadow: none;
+  }
+
+  .envelope-wrapper,
+  .audio-control {
+    display: none;
+  }
+
+  .line-animate {
+    opacity: 1;
+    animation: none;
+  }
+}
