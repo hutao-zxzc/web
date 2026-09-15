@@ -1,0 +1,369 @@
+{
+  "plans": [
+    {
+      "name": "Shift 1 · 12h · 主力",
+      "rooms": {
+        "hire": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "艾雅法拉"
+            ]
+          }
+        ],
+        "power": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "格雷伊"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "澄闪"
+            ]
+          }
+        ],
+        "control": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "八幡海铃",
+              "战车",
+              "斩业星熊",
+              "玛恩纳",
+              "诗怀雅"
+            ]
+          }
+        ],
+        "meeting": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "伊内丝",
+              "赤刃明霄陈"
+            ]
+          }
+        ],
+        "trading": [
+          {
+            "skip": false,
+            "sort": false,
+            "product": "LMD",
+            "autofill": false,
+            "operators": [
+              "可露希尔",
+              "德克萨斯",
+              "拉普兰德"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "LMD",
+            "autofill": false,
+            "operators": [
+              "但书",
+              "能天使"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "LMD",
+            "autofill": false,
+            "operators": [
+              "古米",
+              "安比尔"
+            ]
+          }
+        ],
+        "dormitory": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          }
+        ],
+        "processing": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": []
+          }
+        ],
+        "manufacture": [
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Pure Gold",
+            "autofill": false,
+            "operators": [
+              "夜烟",
+              "斑点",
+              "砾"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Pure Gold",
+            "autofill": false,
+            "operators": [
+              "刻俄柏",
+              "红云",
+              "蛇屠箱"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Pure Gold",
+            "autofill": false,
+            "operators": [
+              "史都华德",
+              "苍苔"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Battle Record",
+            "autofill": false,
+            "operators": [
+              "白雪",
+              "酒神"
+            ]
+          }
+        ]
+      },
+      "drones": {
+        "room": "manufacture",
+        "index": 1,
+        "order": "pre",
+        "enable": true
+      },
+      "Fiammetta": {
+        "order": "pre",
+        "enable": false,
+        "target": ""
+      },
+      "description": "本班 12 小时；下次在 12 小时后执行下一计划；休息 替补 队"
+    },
+    {
+      "name": "Shift 2 · 12h · 替补",
+      "rooms": {
+        "hire": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "伊桑"
+            ]
+          }
+        ],
+        "power": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "烛煌"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "伊芙利特"
+            ]
+          }
+        ],
+        "control": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "Mon3tr",
+              "望",
+              "灰烬",
+              "焰狐龙梓兰",
+              "闪击"
+            ]
+          }
+        ],
+        "meeting": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": [
+              "塞雷娅",
+              "远山"
+            ]
+          }
+        ],
+        "trading": [
+          {
+            "skip": false,
+            "sort": false,
+            "product": "LMD",
+            "autofill": false,
+            "operators": [
+              "卡夫卡",
+              "巫恋",
+              "龙舌兰"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "LMD",
+            "autofill": false,
+            "operators": [
+              "慕斯",
+              "月见夜"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "LMD",
+            "autofill": false,
+            "operators": [
+              "空爆",
+              "缠丸"
+            ]
+          }
+        ],
+        "dormitory": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": true,
+            "operators": []
+          }
+        ],
+        "processing": [
+          {
+            "skip": false,
+            "sort": false,
+            "autofill": false,
+            "operators": []
+          }
+        ],
+        "manufacture": [
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Pure Gold",
+            "autofill": false,
+            "operators": [
+              "娜斯提",
+              "杏仁",
+              "阿罗玛"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Pure Gold",
+            "autofill": false,
+            "operators": [
+              "杰西卡",
+              "白面鸮",
+              "调香师"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Pure Gold",
+            "autofill": false,
+            "operators": [
+              "赫默",
+              "香草"
+            ]
+          },
+          {
+            "skip": false,
+            "sort": false,
+            "product": "Battle Record",
+            "autofill": false,
+            "operators": [
+              "红豆",
+              "霜叶"
+            ]
+          }
+        ]
+      },
+      "drones": {
+        "room": "manufacture",
+        "index": 1,
+        "order": "pre",
+        "enable": true
+      },
+      "Fiammetta": {
+        "order": "pre",
+        "enable": false,
+        "target": ""
+      },
+      "description": "本班 12 小时；下次在 12 小时后执行下一计划；休息 主力 队"
+    }
+  ],
+  "title": "可露希尔基建终端 · 342",
+  "planTimes": "2班",
+  "description": "由 ArknightsInfraCalc 生成；可导入 MAA 自定义基建换班。"
+}
